@@ -30,6 +30,17 @@ class MemoryChallengeHandler(IChallengeHandler):
                    self._config['smtp']['password'])
         
         return smtp
+    
+    def _remove_old_challenges(self) -> None:
+        lifetime = self._config['challenge_lifetime']
+        while len(self._sort) > 0:
+            self._sort.sort()
+            first_age = (datetime.now() - self._sort[0].created_time).seconds
+            if first_age > lifetime:
+                del self._instance[self._sort[0].id]
+                del self._sort[0]
+            else:
+                break
 
     def __init__(self, response_generator: IResponseGenerator):
         self._response_generator = response_generator
@@ -37,6 +48,8 @@ class MemoryChallengeHandler(IChallengeHandler):
             self._config = json.load(fp)
 
     def create_challenge(self, dto: EmailDto) -> ChallengeDto:
+        self._remove_old_challenges()
+
         # generate challenge/response
         response = self._response_generator.generate_response()
 
@@ -71,16 +84,7 @@ class MemoryChallengeHandler(IChallengeHandler):
         return output
 
     def handle_response(self, dto: ResponseDto) -> None:
-        # remove old challenges
-        lifetime = self._config['challenge_lifetime']
-        while len(self._sort) > 0:
-            self._sort.sort()
-            first_age = (datetime.now() - self._sort[0].created_time).seconds
-            if first_age > lifetime:
-                del self._instance[self._sort[0].id]
-                del self._sort[0]
-            else:
-                break
+        self._remove_old_challenges()
 
         if dto.id not in self._instance.keys():
             raise InvalidChallengeException()
