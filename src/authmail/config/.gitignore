@@ -1,3 +1,5 @@
 *.py
 *.txt
+*.json
+
 !implementation/*.py
