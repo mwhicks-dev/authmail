@@ -51,7 +51,7 @@ You can use the Dockerfile tob uild and run this service. Before building, you w
 Build:
 
 ```bash
-docker build --no-cache --build-arg TARGET={your-target-branch} .
+docker build --no-cache --build-arg TARGET={your-target-branch} -t authmail .
 ```
 
 Use of `--no-cache` is recommended as authmail utilizes git.
