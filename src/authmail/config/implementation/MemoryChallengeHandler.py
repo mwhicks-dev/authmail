@@ -14,12 +14,12 @@ class MemoryChallengeHandler(IChallengeHandler):
 
     _config: dict[str, Any]
     _instance: dict[UUID, Challenge] = {}
+    _sort: list[Challenge] = []
     _response_generator: IResponseGenerator
-    _app_name: str
 
     def _construct_smtp(self) -> SMTP_SSL:
         smtp = SMTP_SSL()
-        smtp._host = self._config['smtp']['host']
+        smtp._host = self._config['smtp']['host']  # see https://github.com/python/cpython/issues/80275
 
         # Connect to mail server
         smtp.connect(self._config['smtp']['host'], 
@@ -31,11 +31,10 @@ class MemoryChallengeHandler(IChallengeHandler):
         
         return smtp
 
-    def __init__(self, app_name: str, response_generator: IResponseGenerator):
+    def __init__(self, response_generator: IResponseGenerator):
         self._response_generator = response_generator
         with open("config/config.json", "r") as fp:
             self._config = json.load(fp)
-        self._app_name = app_name
 
     def create_challenge(self, dto: EmailDto) -> ChallengeDto:
         # generate challenge/response
@@ -65,11 +64,24 @@ class MemoryChallengeHandler(IChallengeHandler):
         conn.sendmail(sender, [dto.email], msg.as_string())
         conn.quit()
 
+        self._sort.append(self._instance[uuid])
+
         output = ChallengeDto(id=uuid)
 
         return output
 
     def handle_response(self, dto: ResponseDto) -> None:
+        # remove old challenges
+        lifetime = self._config['challenge_lifetime']
+        while len(self._sort) > 0:
+            self._sort.sort()
+            first_age = (datetime.now() - self._sort[0].created_time).seconds
+            if first_age > lifetime:
+                del self._instance[self._sort[0].id]
+                del self._sort[0]
+            else:
+                break
+
         if dto.id not in self._instance.keys():
             raise InvalidChallengeException()
         elif dto.email != self._instance[dto.id].email:
