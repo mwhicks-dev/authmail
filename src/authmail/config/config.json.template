@@ -1,6 +1,6 @@
 {
+    "app_name" : "Your Application Display Name",
     "smtp" : {
-        "name" : "Display Name",
         "host": "your.mail.server",
         "port": 993,
         "username": "some@email.address",
