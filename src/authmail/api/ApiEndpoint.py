@@ -1,7 +1,5 @@
 import re
 
-from smtplib import SMTPConnectError, SMTPSenderRefused, SMTPDataError, SMTPRecipientsRefused
-
 from fastapi import HTTPException
 
 from schema import EmailDto, ChallengeDto, ResponseDto, MessageDto
@@ -28,14 +26,7 @@ class ApiEndpoint(Endpoint):
     def submit_email(self, dto: EmailDto) -> ChallengeDto:
         self._check(dto.email)
 
-        try:
-            output = self._src.submit_email(dto)
-        except TimeoutError | SMTPSenderRefused | SMTPConnectError as e:
-            raise HTTPException(status_code=503, detail=f"Unable to send message: {str(e)}")
-        except SMTPDataError | SMTPRecipientsRefused as e:
-            raise HTTPException(status_code=400, detail=f"Unable to deliver message: {str(e)}")
-        
-        return output
+        return self._src.submit_email(dto)
 
     def submit_response(self, dto: ResponseDto) -> None:
         try:
@@ -50,9 +41,4 @@ class ApiEndpoint(Endpoint):
         for recipient in dto.recipients:
             self._check(recipient)
 
-        try:
-            self._src.send_email(dto)
-        except TimeoutError | SMTPSenderRefused | SMTPConnectError as e:
-            raise HTTPException(status_code=503, detail=f"Unable to send message: {str(e)}")
-        except SMTPDataError | SMTPRecipientsRefused as e:
-            raise HTTPException(status_code=400, detail=f"Unable to deliver message: {str(e)}")
+        self._src.send_email(dto)

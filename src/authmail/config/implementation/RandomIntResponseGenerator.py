@@ -13,6 +13,6 @@ class RandomIntResponseGenerator(IResponseGenerator):
         resp: list[str] = []
 
         for _ in range(0, self._length):
-            list.append(str(random.randint(0, 9)))
+            resp.append(str(random.randint(0, 9)))
         
         return ''.join(resp)
