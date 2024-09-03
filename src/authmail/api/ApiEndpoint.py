@@ -4,8 +4,8 @@ from smtplib import SMTPConnectError, SMTPSenderRefused, SMTPDataError, SMTPReci
 
 from fastapi import HTTPException
 
-from authmail.schema import EmailDto, ChallengeDto, ResponseDto, MessageDto
-from authmail.model import InvalidChallengeException, InvalidResponseException
+from schema import EmailDto, ChallengeDto, ResponseDto, MessageDto
+from model import InvalidChallengeException, InvalidResponseException
 from .Endpoint import Endpoint
 from .SourceEndpoint import SourceEndpoint
 

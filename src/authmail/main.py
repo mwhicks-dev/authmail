@@ -1,9 +1,9 @@
 from fastapi import FastAPI
 
-from authmail.schema import EmailDto, ChallengeDto, ResponseDto, MessageDto
-from authmail.api import SourceEndpoint, ApiEndpoint
+from schema import EmailDto, ChallengeDto, ResponseDto, MessageDto
+from api import SourceEndpoint, ApiEndpoint
 
-import authmail.config as cfg
+import config as cfg
 
 _src: SourceEndpoint = SourceEndpoint(cfg.challenge_handler, cfg.mail_handler)
 _api: ApiEndpoint = ApiEndpoint(_src)

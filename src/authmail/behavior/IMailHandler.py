@@ -1,6 +1,6 @@
 from abc import ABC, abstractmethod
 
-from authmail.schema import MessageDto
+from schema import MessageDto
 
 class IMailHandler(ABC):
 

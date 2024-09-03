@@ -1,6 +1,6 @@
 from abc import ABC, abstractmethod
 
-from authmail.schema import EmailDto, ChallengeDto, ResponseDto
+from schema import EmailDto, ChallengeDto, ResponseDto
 
 class IChallengeHandler(ABC):
 

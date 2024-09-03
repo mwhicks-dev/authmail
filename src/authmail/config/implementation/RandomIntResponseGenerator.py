@@ -1,6 +1,6 @@
 import random
 
-from authmail.behavior import IResponseGenerator
+from behavior import IResponseGenerator
 
 class RandomIntResponseGenerator(IResponseGenerator):
 

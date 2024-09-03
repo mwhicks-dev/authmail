@@ -1,6 +1,6 @@
 from abc import ABC, abstractmethod
 
-from authmail.schema import EmailDto, ChallengeDto, ResponseDto, MessageDto
+from schema import EmailDto, ChallengeDto, ResponseDto, MessageDto
 
 class Endpoint(ABC):
 

@@ -1,5 +1,5 @@
-from authmail.schema import EmailDto, ChallengeDto, ResponseDto, MessageDto
-from authmail.behavior import IChallengeHandler, IMailHandler
+from schema import EmailDto, ChallengeDto, ResponseDto, MessageDto
+from behavior import IChallengeHandler, IMailHandler
 from .Endpoint import Endpoint
 
 class SourceEndpoint(Endpoint):
