@@ -1,0 +1,8 @@
+from authmail.behavior import IChallengeHandler, IMailHandler
+
+# select your implementations from these
+challenge_handler: IChallengeHandler = None
+mail_handler: IMailHandler = None
+
+# TODO: Implement any configurables that your specific handlers require
+# ...

@@ -3,7 +3,9 @@ from fastapi import FastAPI
 from authmail.schema import EmailDto, ChallengeDto, ResponseDto, MessageDto
 from authmail.api import SourceEndpoint, ApiEndpoint
 
-_src: SourceEndpoint = None
+import authmail.config as cfg
+
+_src: SourceEndpoint = SourceEndpoint(cfg.challenge_handler, cfg.mail_handler)
 _api: ApiEndpoint = ApiEndpoint(_src)
 
 app = FastAPI()
@@ -17,5 +19,5 @@ async def submit_response(dto: ResponseDto) -> None:
     return _api.submit_response(dto)
 
 @app.post(f"{_api.base_path}/msg/")
-async def send_email(dto: EmailDto) -> None:
+async def send_email(dto: MessageDto) -> None:
     return _api.send_email(dto)
