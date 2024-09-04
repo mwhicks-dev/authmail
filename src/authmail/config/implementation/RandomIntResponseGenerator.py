@@ -3,6 +3,11 @@ import random
 from behavior import IResponseGenerator
 
 class RandomIntResponseGenerator(IResponseGenerator):
+    """
+    No additional dependencies needed. When constructing, pass in the length of
+    your challenges. For instance, if 6 is passed, challenges will look 
+    something like 345356.
+    """
 
     _length: int
 
