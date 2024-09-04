@@ -8,6 +8,9 @@ from behavior import IMailHandler
 from schema import MessageDto
 
 class UnauthenticatedMailHandler(IMailHandler):
+    """
+    No additional dependencies required.
+    """
 
     _config: dict[str, Any]
 
