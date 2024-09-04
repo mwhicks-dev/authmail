@@ -1,3 +1,6 @@
+import json
+from typing import Any
+
 from fastapi import FastAPI
 
 from schema import EmailDto, ChallengeDto, ResponseDto, MessageDto
@@ -8,7 +11,13 @@ import config as cfg
 _src: SourceEndpoint = SourceEndpoint(cfg.challenge_handler, cfg.mail_handler)
 _api: ApiEndpoint = ApiEndpoint(_src)
 
-app = FastAPI()
+with open("config/config.json", "r") as fp:
+    config: dict[str, Any] = json.load(fp)
+
+if config.get('generate_docs', False):
+    app = FastAPI()
+else:
+    app = FastAPI(docs_url=None, redoc_url=None)
 
 @app.post(f"{_api.base_path}/challenge/", response_model=ChallengeDto)
 async def create_challenge(dto: EmailDto) -> ChallengeDto:

@@ -28,6 +28,7 @@ I will walk through the configuration files in `src/authmail/config` in the orde
 
 * Begin with `behavior.py`. This file is where you specify *what* behaviors (implementations of `src/authmail/behavior` interfaces) you would like to use for this application, all of which you can find (or reference while writing your own) in the `implementation/` subdirectory. If you don't select a ChallengeHandler and MailHandler, this application will not be able to run. However, any old MailHandler and ChallengeHandler should be interoperable.
 * Next, modify `config.json`. You will likely need to implement the `app_name` field and all of the members of `smtp`, but technically, those (and all other) members of the config are dependant on the implementation you are using. If writing your own handler, add any passwords or keys here.
+  * The `generate_docs` key determines whether a SwaggerUI implementation is generated using OpenAPI specification and available at `${host}:${port}/docs`. Usually, this should be false in deployed systems.
 * (Optional) Finally, modify `requirements.txt`. This is really only important so that Docker can build your application if you want it to.
 
 With this out of the way, you should be able to navigate to `src/authmail` and run:
