@@ -11,13 +11,37 @@ from behavior import IMailHandler
 from schema import MessageDto
 
 class PyAcctMailHandler(IMailHandler):
+    """
+    PyAcctMailHandler is an IMailHandler implementation that uses HTTP to 
+    verify users via the [PyAcct](https://github.com/mwhicks-dev) software. As 
+    such, PyAcct is a dependency (specifically with an attribute 'email') 
+    externally.
+
+    This implementation uses the Python `httpx` which should be added to 
+    your requirements.txt and/or installed in your local development 
+    environment. Also, you should add the 'pyacct_base_url' field to your 
+    config.json, specifying where PyAcct is HTTP-accessible:
+
+    ```json
+    {
+        "app_name" : "Your Application Display Name",
+        "smtp" : {
+            "host": "your.mail.server",
+            "port": 993,
+            "username": "some@email.address",
+            "password": "email_address_pw"
+        },
+        "pyacct_base_uri": "http://pyacct.address:port/pyacct/2"
+    }
+    ```
+    """
 
     _config: dict[str, Any]
 
     _pyacct_username: str
     _pyacct_password: str
 
-    def __init__(self, pyacct_username: str, pyacct_password: str):
+    def __init__(self):
         with open("config/config.json", "r") as fp:
             self._config = json.load(fp)
 
