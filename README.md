@@ -26,7 +26,7 @@ This application is meant to be moreso developer-friendly than anything, as it i
 
 I will walk through the configuration files in `src/authmail/config` in the order that you should set them up.
 
-* Begin with `behavior.py`. This file is where you specify *what* behaviors (implementations of `src/authmail/behavior` interfaces) you would like to use for this application, all of which you can find (or reference while writing your own) in the `implementation/` subdirectory. If you don't select a ChallengeHandlker and MailHandler, this application will not be able to run. However, any old MailHandler and ChallengeHandler should be interoperable.
+* Begin with `behavior.py`. This file is where you specify *what* behaviors (implementations of `src/authmail/behavior` interfaces) you would like to use for this application, all of which you can find (or reference while writing your own) in the `implementation/` subdirectory. If you don't select a ChallengeHandler and MailHandler, this application will not be able to run. However, any old MailHandler and ChallengeHandler should be interoperable.
 * Next, modify `config.json`. You will likely need to implement the `app_name` field and all of the members of `smtp`, but technically, those (and all other) members of the config are dependant on the implementation you are using. If writing your own handler, add any passwords or keys here.
 * (Optional) Finally, modify `requirements.txt`. This is really only important so that Docker can build your application if you want it to.
 
@@ -36,11 +36,11 @@ With this out of the way, you should be able to navigate to `src/authmail` and r
 uvicorn main:app --host 0.0.0.0 --port {host-authmail-port}
 ```
 
-to start the service. I would not recommend running with many workers unless the implementations you are using are specifically built for it. The basic infrastructure is highly async compatible.
+to start the service. I would not recommend running with many workers unless the implementations you are using are specifically built for it. The basic infrastructure, however, is highly async compatible.
 
 ### Extension
 
-Add a custom implementation to `src/authmail/config/implementation`. This is easy to reach and keeps everything user-defined in one place. For posterity sake, it is *highly recommended* that at the top of your implementation, you document any elements that need to be added to the `config.json` or `requirements.txt` files.
+Add a custom implementation to `src/authmail/config/implementation`. This is easy to reach and keeps everything user-defined in one place. For posterity sake, it is *highly recommended* that at the top of your implementation, you document any elements that need to be added to the `config.json` or `requirements.txt` files and other important details.
 
 ### Docker Usage
 
