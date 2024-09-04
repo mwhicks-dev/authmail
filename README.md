@@ -40,13 +40,14 @@ to start the service. I would not recommend running with many workers unless the
 
 ### Extension
 
-Add a custom implementation to `src/authmail/config/implementation`. This is easy to reach and keeps everything user-defined in one place.
+Add a custom implementation to `src/authmail/config/implementation`. This is easy to reach and keeps everything user-defined in one place. For posterity sake, it is *highly recommended* that at the top of your implementation, you document any elements that need to be added to the `config.json` or `requirements.txt` files.
 
 ### Docker Usage
 
-You can use the Dockerfile tob uild and run this service. Before building, you will need to verify or modify the following argument:
+You can use the Dockerfile tob uild and run this service. Before building, you will need to verify or modify the following arguments:
 
 * `TARGET`: This will be the branch (or tag) you would like to build to your Docker image (for instance `v1.0` or `dev`). If not modified, this argument defaults to `main`.
+* `CONFIG_PATH`: Set this to the local path from your current directory when running `docker build` to the `config` directory. If not modified, this argument defaults to `src/authmail/config/`.
 
 Build:
 
@@ -54,7 +55,10 @@ Build:
 docker build --no-cache --build-arg TARGET={your-target-branch} -t authmail .
 ```
 
-Use of `--no-cache` is recommended as authmail utilizes git.
+Use of `--no-cache` is recommended as authmail utilizes git. The Dockerfile will *temporarily* copy your `config/` directory in order to set up any dependencies, but this will be removed completely (`rm -rf`) before the image is finished building. You should rebuild whenever you:
+
+1. Want to use a different version of authmail
+1. Want to use a different set of behaviors with different dependencies (i.e. PyAcctMailHandler utilizes the Python `httpx` package)
 
 Run:
 
