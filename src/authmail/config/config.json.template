@@ -5,6 +5,5 @@
         "port": 993,
         "username": "some@email.address",
         "password": "email_address_pw"
-    },
-    "challenge_lifetime" : 600
+    }
 }

@@ -11,6 +11,33 @@ from model import Challenge, InvalidChallengeException, InvalidResponseException
 from schema import EmailDto, ChallengeDto, ResponseDto
 
 class MemoryChallengeHandler(IChallengeHandler):
+    """
+    This IChallengeHandler implementation only uses the Python standard 
+    library, but will require that you add a 'challenge_lifetime' member to 
+    config.json which denotes how many seconds a challenge is valid for.
+
+    config.json:
+    ```json
+    {
+        "app_name" : "Your Application Display Name",
+        "smtp" : {
+            "host": "your.mail.server",
+            "port": 993,
+            "username": "some@email.address",
+            "password": "email_address_pw"
+        },
+        "challenge_lifetime" : 600
+    }
+    ```
+
+    MemoryChallengeHandler is constructed component-style with an 
+    IResponseGenerator of your choice. This should be done in behavior.py, for 
+    instance:
+
+    ```python
+    challenge_handler: IChallengeHandler = MemoryChallengeHandler(RandomIntResponseGenerator(6))
+    ```
+    """
 
     _config: dict[str, Any]
     _instance: dict[UUID, Challenge] = {}
