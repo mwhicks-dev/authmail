@@ -19,13 +19,7 @@ class MemoryChallengeHandler(IChallengeHandler):
     config.json:
     ```json
     {
-        "app_name" : "Your Application Display Name",
-        "smtp" : {
-            "host": "your.mail.server",
-            "port": 993,
-            "username": "some@email.address",
-            "password": "email_address_pw"
-        },
+        ... ,
         "challenge_lifetime" : 600
     }
     ```
