@@ -66,7 +66,7 @@ class PyAcctMailHandler(IMailHandler):
         
         # attempt to read acount from token
         resp = httpx.get(
-            f'{self._config['pyacct_base_uri']}/account/', 
+            f'{self._config["pyacct_base_uri"]}/account/', 
             headers={'token' : token}
         )
         if resp.status_code != 200:
@@ -75,7 +75,7 @@ class PyAcctMailHandler(IMailHandler):
 
         # read account email from ID
         resp = httpx.get(
-            f'{self._config['pyacct_base_uri']}/account/{account_id}/email', 
+            f'{self._config["pyacct_base_uri"]}/account/{account_id}/email', 
             headers={'token' : token}
         )
         if resp.status_code != 200:
