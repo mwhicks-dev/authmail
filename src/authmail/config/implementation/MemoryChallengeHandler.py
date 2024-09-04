@@ -58,7 +58,10 @@ class MemoryChallengeHandler(IChallengeHandler):
             self._sort.sort()
             first_age = (datetime.now() - self._sort[0].created_time).seconds
             if first_age > lifetime:
-                del self._instance[self._sort[0].id]
+                try:
+                    del self._instance[self._sort[0].id]
+                except KeyError:
+                    pass
                 del self._sort[0]
             else:
                 break
