@@ -6,5 +6,9 @@
         "username": "some@email.address",
         "password": "email_address_pw"
     },
-    "generate_docs" : true
+    "generate_docs" : true,
+    "origins" : [
+        "http://localhost",
+        "https://localhost"
+    ]
 }

@@ -2,6 +2,7 @@ import json
 from typing import Any
 
 from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
 
 from schema import EmailDto, ChallengeDto, ResponseDto, MessageDto
 from api import SourceEndpoint, ApiEndpoint
@@ -30,3 +31,11 @@ async def submit_response(dto: ResponseDto) -> None:
 @app.post(f"{_api.base_path}/msg/")
 async def send_email(dto: MessageDto) -> None:
     return _api.send_email(dto)
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=config.get('origins', []),
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"]
+)
