@@ -3,6 +3,7 @@ ARG TARGET=main
 ARG CONFIG_PATH=src/authmail/config/
 
 RUN apt install git -y
+RUN mkdir /cert
 
 RUN git clone https://github.com/mwhicks-dev/authmail
 
@@ -14,4 +15,4 @@ RUN pip install -r src/authmail/config/requirements.txt; return 0
 RUN rm -rf src/authmail/config/*
 
 WORKDIR /authmail/src/authmail
-ENTRYPOINT ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000"]
+ENTRYPOINT ["uvicorn", "main:app", "--host", "0.0.0.0"]

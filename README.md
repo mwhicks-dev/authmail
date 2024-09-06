@@ -65,7 +65,23 @@ Use of `--no-cache` is recommended as authmail utilizes git. The Dockerfile will
 Run:
 
 ```bash
-docker run --rm -it -v /$(pwd)/src/authmail/config/:/authmail/src/authmail/config/ -p {host-authmail-port}:8000 authmail
+docker run --rm \
+    -v /$(pwd)/src/authmail/config/:/authmail/src/authmail/config/ \
+    -p {host-authmail-port}:{container-port} \
+    authmail --port {container-port} --workers {number-async-workers}
 ```
+
+In the Docker image, a directory `cert` is available for you to provide your SSL info. To deploy with SSL enabled, instead run:
+
+```bash
+docker run --rm \
+    -v /$(pwd)/src/authmail/config/:/authmail/src/authmail/config/ \
+    -v /path/to/cert/readable/:/cert/ \
+    -p {host-authmail-port}:{container-port} \
+    authmail --port {container-port} --workers {number-async-workers} \
+    --ssl-certfile /cert/cert.pem --ssl-keyfile /cert/privkey.pem --ssl-keyfile-password {your-kf-password}
+```
+
+You may need to copy your existing certs into a new container so that the Docker image has permission to read them. Make sure these are not accessible to the web!
 
 You can detach with `-d`.
